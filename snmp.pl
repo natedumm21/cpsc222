@@ -5,7 +5,8 @@ use warnings;
 
 #print"5\n" 
 my $sudo_sessions = `journalctl | grep "sudo" | wc -l`;
-print $sudo_sessions; 
+chomp $sudo_sessions; 
+print $sudo_sessions;
 #testsave
-
+#test
 
