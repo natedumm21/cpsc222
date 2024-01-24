@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 #print"5\n" 
-my $sudo_sessions = `journalctl | grep -c "pam_unix(sudo:session)"`;
+my $sudo_sessions = `journalctl | grep -c "pam_unix(sudo:session): session opened"`;
 chomp $sudo_sessions; 
 print $sudo_sessions;
 #testsave
