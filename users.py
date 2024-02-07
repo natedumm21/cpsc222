@@ -1,35 +1,42 @@
 from flask import Flask, request, jsonify
-from functools import wraps
 
 app = Flask(__name__)
 
-def check_auth(username, password):
-    return username == 'test' and password == 'abcABC123'
+# Define the username and password
+USERNAME = 'test'
+PASSWORD = 'abcABC123'
 
-def authenticate():
-    message = {'message': "Authentication failed."}
-    resp = jsonify(message)
-    resp.status_code = 401
-    resp.headers['WWW-Authenticate'] = 'Basic realm="Login Required"'
-    return resp
+# Dummy data for users and groups (you may need to import additional libraries to get real system data)
+USERS = {
+    "0": "root",
+    "1": "daemon",
+    "2": "bin",
+    # Add more users here
+}
 
-def requires_auth(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
-            return authenticate()
-        return f(*args, **kwargs)
-    return decorated
+GROUPS = {
+    "0": "root",
+    "1": "daemon",
+    "2": "bin",
+    # Add more groups here
+}
 
 @app.route('/api/users', methods=['POST'])
-@requires_auth
 def get_users():
-    # Your logic to get the list of users
-    # Example response:
-    users = {"0": "root", "1": "daemon", "2": "bin", ...}
-    return jsonify(users)
+    auth = request.authorization
+    if not auth or not (auth.username == USERNAME and auth.password == PASSWORD):
+        return jsonify({'error': 'Unauthorized access'}), 401
+
+    return jsonify(USERS)
+
+@app.route('/api/groups', methods=['POST'])
+def get_groups():
+    auth = request.authorization
+    if not auth or not (auth.username == USERNAME and auth.password == PASSWORD):
+        return jsonify({'error': 'Unauthorized access'}), 401
+
+    return jsonify(GROUPS)
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=3000)
+    app.run(host='0.0.0.0', port=3000)
 
