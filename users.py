@@ -19,7 +19,7 @@ def authenticate():
 @app.route('/api/users', methods=['GET', 'POST'])
 def users():
     if not authenticate():
-        return jsonify({'error': 'Unauthorized access'}), 401
+        return jsonify({'error': 'Unauthorized access1111'}), 401
     
     # Retrieve user information
     users_info = {}
@@ -32,7 +32,7 @@ def users():
 @app.route('/api/groups', methods=['GET', 'POST'])
 def groups():
     if not authenticate():
-        return jsonify({'error': 'Unauthorized access'}), 401
+        return jsonify({'error': 'Unauthorized access2222'}), 401
     
     # Retrieve group information
     groups_info = {}
